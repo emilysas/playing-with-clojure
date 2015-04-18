@@ -4,7 +4,10 @@
 
 (defn average
   [bill-amount]
-  (/ (reduce + bill-amount) (count bill-amount))
+  (let
+    [total (reduce + bill-amount)
+    number (count bill-amount)]
+  (/ total number))
 )
 
 
