@@ -22,13 +22,27 @@
 ))
 
 (defn format-name
-  [user]
+  [user order]
   (let [first-name  (:first user)
         middle-name (:middle user)
         last-name   (:last user)]
-    (if middle-name
-      (str first-name " " middle-name " " last-name)
-      (str first-name " " last-name))))
+    (cond
+      (and (= order :last) (not (empty? middle-name))) (str last-name " " middle-name " " first-name)
+      (not (empty? middle-name))                       (str first-name " " middle-name " " last-name)
+      (= order :last)                                  (str last-name " " first-name)
+      :else                                            (str first-name " " last-name))))
 
-(format-name {:first "Margaret" :last "Atwood"})
-(format-name {:first "Ursula" :last "Le Guin" :middle "K."})
+(format-name {:first "Margaret" :last "Atwood"} :last)
+(format-name {:first "Ursula" :last "Le Guin" :middle "K."} :last)
+(format-name {:first "Emily" :middle "Bronwen" :last "Sas"} :first)
+
+; can do method override
+
+(defn return-str
+  ([x] (return-str x nil))
+  ([x y] (if y
+           (str x " " y)
+           (str x)))
+  ([x y args] ()))
+
+
