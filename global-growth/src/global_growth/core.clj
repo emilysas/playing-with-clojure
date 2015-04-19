@@ -1,3 +1,4 @@
+;; ns - a namespace lets you organise your code into logical sections
 (ns global-growth.core
   (:require [clj-http.client :as client]
             [cheshire.core :as json]))
@@ -5,6 +6,13 @@
 (defn -main
   [& args]
   (println "Hello, world!"))
+
+(defn get-population-density
+  (let [url ("http://api.worldbank.org/countries/all/indicators/EN.POP.DNST?format=json&date=2010")]
+        response (json/parse-string (:body (client/get url)) true)))
+
+(get-population-density)
+
 
 ;;;; MODULE 4
 
